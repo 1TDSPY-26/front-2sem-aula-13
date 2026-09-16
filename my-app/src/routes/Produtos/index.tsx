@@ -1,15 +1,15 @@
-import { useEffect, useState } from "react";
-import { listaProdutos } from "../../data/listaProdutos";
-import type { TipoProduto } from "../../types/types";
+// import { useEffect, useState } from "react";
+// import { listaProdutos } from "../../data/listaProdutos";
+// import type { TipoProduto } from "../../types/types";
 
 export default function Produtos() {
 
 
-    const[produtos,setProdutos] = useState<TipoProduto[]>([]);
+    // const[produtos,setProdutos] = useState<TipoProduto[]>([]);
 
-    useEffect(()=>{
-        setProdutos(listaProdutos);
-    },[]);
+    // useEffect(()=>{
+    //     setProdutos(listaProdutos);
+    // },[]);
 
     return (
         <main>
