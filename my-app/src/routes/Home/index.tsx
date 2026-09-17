@@ -3,12 +3,11 @@ import { useEffect } from "react";
 
 export default function Home() {
 
-
     type TipoUserGit = {
-        login:String;
+        login:string;
         id:Number;
-        avatar_url:String;
-    }
+        avatar_url:string;
+    };
     
     const[usuarios, setUsuarios] = useState<TipoUserGit[]>([]);
 
@@ -25,11 +24,8 @@ export default function Home() {
             }
 
             const data: TipoUserGit[] = await response.json();
-            setUsuarios(data);
 
-            if(data.login === e){
-                setpPesquisa(data.login);
-            }
+            setUsuarios(data);
 
             }catch(error){
                 console.error(error);
@@ -41,21 +37,25 @@ export default function Home() {
 
     }, []);
 
+    const [user, setUser] = useState<string>("");
+    const [digitado, setDigitado] = useState<string>("");
 
-    const buscador = async(e:string) => {
+    const buscador = async() => {
 
-        const response = await fetch("https://api.github.com/users");
+        const response = await fetch(`https://api.github.com/users/${digitado}`);
 
-            if(!response.ok){
-                throw new Error("O carregamento da lista de usuários falhou");
+        try {
+            if (!response.ok) {
+                throw new Error("O carregamento da lista de usuários falhou!");
             }
 
-            const data: TipoUserGit[] = await response.json();
-            setUsuarios(data);
+            const data: TipoUserGit = await response.json();
 
-            if(data.login === e){
-                setpPesquisa(data.login);
-            }
+            setUser(data.login);
+
+        } catch (error) {
+            console.error(error);
+        }
 
     }
 
@@ -64,21 +64,22 @@ export default function Home() {
             <h2>Home</h2>
 
             <div>
-
                 <div>
+
                     <label htmlFor="">Nome User</label>
-                    <input/>
-                </div>
-                <div>
-                    <button>Pesquisar</button>
-                </div>
+                    <input
+                        type="text"
+                        placeholder="Digite o nome a ser pesquisado" onChange={(e) => setDigitado(e.target.value)} />
+                    <button onClick={buscador}>Pesquisar</button>
 
+                </div>
             </div>
 
             <ul>
                 {usuarios.map((u) => (
                     <li key={u.id}>
-                        {u.id} - {u.login} - <img src={u.avatar_url} alt={u.login} width={30} />
+                        {u.id} - {u.login} -{" "}
+                        <img src={u.avatar_url} alt={u.login} width={30} />
                     </li>
                 ))}
             </ul>
